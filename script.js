@@ -26,24 +26,80 @@ setInterval(()=>{
 		dateEl.innerHTML= days[day]+', '+ date+ ' ' +months[month];
 
 },1000);
-getWeatherData();
-var  URL=`api.openweathermap.org/data/2.5/forecast?lat=39.51219&lon=-84.76460&appid=d7471f3e139a291b90be7d5f056f4d50`;
+
+var  URL=`http://api.openweathermap.org/data/2.5/forecast?`;
 const API_KEY='36b2ba68d63c1edc7de157f97eb920a5';
 
+var tom=`https://api.tomtom.com/search/2/search/`;
+const TOM_KEY='.json?key=DLFolWFOZpxbich8Qqa1gUVpmaLV4ybV';
 
-function getWeatherData(){
+$(document).ready(function(){
+	$('#submit').click(function(){
+
+		getlonglat();
+	});
+        
+});
+
+function getlonglat(){
+	var  input=document.getElementById('search').value;
 	a=$.ajax({
-	url:URL,
-	method:"GET"}).done(function(data){
-		showWeatherData(data);
+		url:tom+input+TOM_KEY,
+		method:"GET"
+	}).done(function(data){
+		
+		var lat=data.results[0].position.lat;
+		var log=data.results[0].position.lon;
+		getWeatherData(input,lat,log);
+	}).fail(function(error){
+		console.log("error");
+	});
+
+}
+function getWeatherData(input,lat,log){
+	a=$.ajax({
+	url:URL+"lat="+lat+"&lon="+log+"&units=imperial&appid=36b2ba68d63c1edc7de157f97eb920a5",
+	type:"GET",
+	dataType:'json',
+	}).done(function(data){
+		var iconcode=data.list[0].weather[0].icon;
+		var iconurl=("<img src='http://openweathermap.org/img/wn/"+iconcode+".png'/>");
+		$("#current-humidity").html(data.list[0].main.humidity);
+		$("#current-pressure").html(data.list[0].main.pressure);
+		$("#current-wind").html(data.list[0].wind.speed);
+		$('#day-0').html(data.list[8].dt_txt);
+		$('#day-1').html(data.list[16].dt_txt);
+		$('#day-2').html(data.list[24].dt_txt);
+		$('#day-3').html(data.list[32].dt_txt);
+		len=data.list.length;
+		for(i=0;i<len;i++){
+			 var j =i;
+			var iconl=data.list[i].weather[0].icon;
+			 var iconur=("<img src='http://openweathermap.org/img/wn/"+iconl+".png'/>");
+			
+			$('#icon-'+j).append(iconur);
+			$('#temp-night-'+j).html('Night - ' +data.list[i].main.temp_min+'&#176;');
+			$('#temp-day-'+j).html('Day - ' + data.list[i].main.temp_max+'&#176;');
+
+		}
+		var map=lat+"," + log;
+		var jsonData=JSON.stringify(data);
+		toPHP(input,map,jsonData);
+
 	}).fail(function(error){
 	});
 	
 }
-
-function showWeatherData(data){
-	let {humidity, pressure, sunrise, sunset, wind_speed}=data.current;
-	currentWeatherItemsEl.innerHTML= ` <div class="weather-item"><div>Humidity</div> <div>${humidity}</div></div><div class="weather-item"><div>Pressure</div><div>${pressure}</div></div><div class="weather-item"><div> Wind Speed</div><div>${wind_speed}</div></div><div class="weather-item"><div>Sunrise</div><div>${sunrise}</div></div><div class="weather-item"><div>Sunset</div><div>${sunset}</div></div>`;
+const  phpUrl='http://172.17.12.154/final.php?'
+function toPHP(input,map,data){
+	a=$.ajax({
+		url:phpUrl,
+		method:"POST",
+		data:{method:'setWeather',location:input,mapJson:map,weatherJson:data}
+	}).done(function(data){
+		console.log("worked");
+	}).fail(function(error){
+	});
 }
 
 
