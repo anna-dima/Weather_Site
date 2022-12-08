@@ -67,10 +67,18 @@ function getWeatherData(input,lat,log){
 		$("#current-humidity").html(data.list[0].main.humidity);
 		$("#current-pressure").html(data.list[0].main.pressure);
 		$("#current-wind").html(data.list[0].wind.speed);
-		$('#day-0').html(data.list[8].dt_txt);
-		$('#day-1').html(data.list[16].dt_txt);
-		$('#day-2').html(data.list[24].dt_txt);
-		$('#day-3').html(data.list[32].dt_txt);
+		var date=new Date(data.list[8].dt_txt);
+		var day=date.getDay();
+		$('#day-0').html(days[day]);
+		date=new Date(data.list[16].dt_txt);
+		day=date.getDay();
+		$('#day-1').html(days[day]);
+		date=new Date(data.list[24].dt_txt);
+		day=date.getDay();
+		$('#day-2').html(days[day]);
+		date=new Date(data.list[32].dt_txt);
+		day=date.getDay();
+		$('#day-3').html(days[day]);
 		len=data.list.length;
 		for(i=0;i<len;i++){
 			 var j =i;
@@ -90,8 +98,9 @@ function getWeatherData(input,lat,log){
 	});
 	
 }
-const  phpUrl='http://172.17.12.154/final.php?'
+const  phpUrl='http://172.17.12.154/final.php?';
 function toPHP(input,map,data){
+
 	a=$.ajax({
 		url:phpUrl,
 		method:"POST",
@@ -101,6 +110,5 @@ function toPHP(input,map,data){
 	}).fail(function(error){
 	});
 }
-
 
 

@@ -11,19 +11,103 @@
 	</head>
 	<body>
 		<div class="container">
+			<div class="row">
+			            <nav class="navbar navbar-expand">
+                                <div class="container-fluid">
+          <ul class="navbar-nav">
+          <li class="nav-item">
+                  <a class="nav-link" href="landing.html">Home</a>
+          </li>
+                <li class="nav-item">
+                        <a class="nav-link" href="weather.html">Weather</a>
+                </li>
+                 <li class="nav-item">
+                         <a class="nav-link" href="history.html">History</a>
+                 </li>
+        </ul>
+                                </div>
+                        </nav>
+			<div>
+				<div class="row">
+					<div class="col">
+					         <div class="time" id="time">
+                                         <span id="am-pm"></span>
+                        </div>
+					</div>
+					<div class="col">
+                        <div class="date" id="date">
+                                Thursday, 1 December
+			</div>
+                        </div>
+
+				</div>
+				<div class="row">
+					<div class="col">
+					<label for="input-day" id="day">Date</label>
+					<br>
+					<input type="date" id="input-day" name="input-day" placeholder="yyyy-mm-dd">
+					<br>
+					</div>
+					<div class="col">
+						<label for="quantity" >Max Amount of lines</label>
+						<br>
+						<input type="number" id="quantity" min="1" placeholder="Max number of lines">
+						<br>
+						
+					</div>
+					<div class="col">
+						<input type="submit" id="submit">
+					</div>
+				</div>
 			<div class="table-responsive">
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col">Date</th>
-							<th scope="col">Time</th>
+							<th scope="col">Date&Time</th>
 							<th scope="col">Search Input</th>
 							<th scope="col">Latitude and Longitude</th>
 							<th scope="col">Full Weather Data</th>
 						</tr>
 					</thead>
+					<tbody id="history">
+					</tbody>
 				</table>
+				<div class="tabe-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Date</th>
+								<th scope="col">Data</th>
+							</tr>
+						</thead>
+						<tbody id="weatherData">
+							<tr>
+								<td id='date-1'></td>
+								<td id='data-1'></td>
+							</tr>
+							  <tr>
+                                                                <td id='date-2'></td>
+                                                                <td id='data-2'></td>
+                                                        </tr>
+							  <tr>
+                                                                <td id='date-3'></td>
+                                                                <td id='data-3'></td>
+                                                        </tr>
+							  <tr>
+                                                                <td id='date-4'></td>
+                                                                <td id='data-4'></td>
+                                                        </tr>
+							  <tr>
+                                                                <td id='date-5'></td>
+                                                                <td id='data-5'></td>
+                                                        </tr>
+
+						</tbody>
+					</table>		
+				</div>
 			</div>
 		</div>
 	</body>
+	 <script src="history-script.js"></script>
+
 </html>
